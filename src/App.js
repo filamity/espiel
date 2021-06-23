@@ -7,7 +7,19 @@ function App() {
 	   them and not having them though. */
 
 	return (
-		<h1>Welcome to Espiel</h1>
+		<>
+			<h1>Welcome to Espiel</h1>
+			<h3>Essentials</h3>
+			<ul>
+				<li>Toiletries
+					<ul>
+						<li>Shampoo, bodywash, conditioner</li>
+						<li>Toothbrush and toothpaste</li>
+						<li>Deodorant</li>
+					</ul>
+				</li>
+			</ul>
+		</>
 	)
 }
 
