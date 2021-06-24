@@ -2,7 +2,9 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import List from "./List"
 import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
 
 function App() {
 	const [childData, setChildData] = useState({})
@@ -15,6 +17,9 @@ function App() {
 	const [input, setInput] = useState("")
 	const [customs, setCustoms] = useState([])
 
+	// Provides a unique ID
+	const [listID, setListID] = useState(0)
+
 	/* The stuff in return() is to be replaced by functional components */
 	/* This may really bother you, but I don't use semicolons
 	   at the end of lines. I don't mind the code being a mix 
@@ -24,13 +29,47 @@ function App() {
 		if (childData[0] !== undefined) {
 			setData((prev) => ({
 				...prev,
+				// name: boolean
 				[childData[0]]: childData[1]
 			}))
 		}
 	}, [childData])
 
 	const handleSubmit = () => {
-		setCustoms([...customs, <li className="item"><List dataName={input} passData={setChildData} />{input}</li>])
+
+		// Adds item into data object
+		setData((prev) => ({
+			...prev,
+			[input]: false
+		}))
+
+		// Increments listID for next list item
+		setListID(listID + 1)
+
+		// Adds JSX element to customs
+		setCustoms([...customs, 
+					<li id={listID} className="item" key={input}>
+						<List dataName={input} passData={setChildData} />
+						{input}
+						<IconButton
+							aria-label="delete" 
+							style={{marginLeft: "30px"}}
+							onClick={() => {
+								// removes item from data object
+								setData((prev) => ({
+									...prev,
+									[input]: undefined
+								}))
+								// removes item from DOM
+								document.getElementById(listID).remove()
+							}}
+						>
+							<DeleteIcon />
+						</IconButton>
+					</li>
+					])
+
+		// Resets textfield
 		setInput("")
 	}
 
@@ -53,22 +92,23 @@ function App() {
 						<li className="item"><List dataName="stationary" passData={setChildData} />Stationary</li>
 					</ul>
 				</li>
-				<li style={{fontSize: "18px"}}>Custom<br/>
+				<li style={{fontSize: "18px"}}>
 					<TextField 
-						label="Custom List Item" 
+						label="Custom Item" 
 						variant="standard"
 						value={input}
 						onChange={e => setInput(e.target.value)}
+						style={{verticalAlign: "text-bottom"}}
 					/>
-					<Button
-						variant="contained"
+					<IconButton
 						color="primary"
 						type="submit"
 						disabled={(input !== "") ? false : true}
+						aria-label="delete"
 						onClick={handleSubmit}
 					>
-					+
-					</Button>
+						<AddIcon />
+					</IconButton>
 					<ul id="custom">
 						{customs}
 					</ul>
