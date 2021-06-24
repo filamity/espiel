@@ -2,6 +2,8 @@
 
 Espiel, or SPL (School Packing List) is a tool designed for students (by students) for keeping track of what to bring to school.
 
+Sample deploy here: [https://espiel.netlify.app/](https://espiel.netlify.app/)
+
 Please refer to package.json for the list of dependencies needed.
 
 ## Functionalities to add
