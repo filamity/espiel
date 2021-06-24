@@ -1,14 +1,12 @@
 import Checkbox from '@material-ui/core/Checkbox'
 
-function List({ disabled, dataName, passData }) {
+import Avatar from '@material-ui/core/Avatar'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 
-    // const handleChange = (e) => {
-    //     const { name, checked } = e.target
-    //     setData((prev) => ({
-    //         ...prev,
-    //         [name]: checked
-    //     }))
-    // }
+function List({ disabled, dataName, passData }) {
 
     const handleChange = (e) => {
         passData([e.target.name, e.target.checked])
@@ -16,13 +14,23 @@ function List({ disabled, dataName, passData }) {
 
     return (
         <>
-            <Checkbox
-                disabled={disabled}
-                value={dataName}
-                onChange={handleChange}
-                name={dataName}
-                color="primary"
-            />
+            <ListItem button>
+				<ListItemAvatar>
+					<Avatar
+					/>
+				</ListItemAvatar>
+				<ListItemText primary={`${dataName}`} />
+				<ListItemSecondaryAction id="adddelete">
+                    <Checkbox
+                        edge="end"
+                        disabled={disabled}
+                        value={dataName}
+                        onChange={handleChange}
+                        name={dataName}
+                        color="primary"
+                    />
+				</ListItemSecondaryAction>
+          	</ListItem>
         </>
     )
 }

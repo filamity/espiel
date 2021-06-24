@@ -2,9 +2,16 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import List from "./List"
 import TextField from '@material-ui/core/TextField'
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import AddIcon from '@material-ui/icons/Add'
+
+import Checkbox from '@material-ui/core/Checkbox'
+import Avatar from '@material-ui/core/Avatar'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
+import ListItemText from '@material-ui/core/ListItemText'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 
 function App() {
 	const [childData, setChildData] = useState({})
@@ -20,7 +27,6 @@ function App() {
 	// Provides a unique ID
 	const [listID, setListID] = useState(0)
 
-	/* The stuff in return() is to be replaced by functional components */
 	/* This may really bother you, but I don't use semicolons
 	   at the end of lines. I don't mind the code being a mix 
 	   of having them and not having them though. */
@@ -47,73 +53,86 @@ function App() {
 		setListID(listID + 1)
 
 		// Adds JSX element to customs
-		setCustoms([...customs, 
-					<li id={listID} className="item" key={input}>
-						<List dataName={input} passData={setChildData} />
-						{input}
-						<IconButton
-							aria-label="delete" 
-							style={{marginLeft: "30px"}}
-							onClick={() => {
-								// removes item from data object
-								setData((prev) => ({
-									...prev,
-									[input]: undefined
-								}))
-								// removes item from DOM
-								document.getElementById(listID).remove()
-							}}
-						>
-							<DeleteIcon />
-						</IconButton>
-					</li>
-					])
+		// (terrible coding in action)
+		setCustoms([...customs,
+					<div id={listID}>
+
+						<ListItem button>
+							<ListItemAvatar>
+								<Avatar
+								/>
+							</ListItemAvatar>
+							<ListItemText primary={`${input}`} />
+							<ListItemSecondaryAction id="adddelete">
+								<IconButton
+									edge="end"
+									aria-label="delete"
+									style={{marginLeft: "30px"}}
+									onClick={() => {
+										// removes item from data object
+										setData((prev) => ({
+											...prev,
+											[input]: undefined
+										}))
+										// removes item from DOM
+										document.getElementById(listID).remove()
+									}}
+								>
+									<DeleteIcon />
+								</IconButton>
+								<Checkbox
+									edge="end"
+									disabled={(input !== "") ? false : true}
+									value={input}
+									onChange={(e) => setChildData([e.target.name, e.target.checked])}
+									name={input}
+									color="primary"
+								/>
+							</ListItemSecondaryAction>
+						</ListItem>
+
+					</div>
+				])
 
 		// Resets textfield
 		setInput("")
+
 	}
+
 
 	return (
 		<>
 			<h1>Welcome to Espiel</h1>
 			<h3>Essentials</h3>
-			<ul>
-				<li style={{fontSize: "18px"}}>Toiletries
-					<ul>
-						<li className="item"><List dataName="shampoo" passData={setChildData} />Shampoo, bodywash, conditioner</li>
-						<li className="item"><List dataName="toothbrush" passData={setChildData} />Toothbrush and toothpaste</li>
-						<li className="item"><List dataName="towels" passData={setChildData} />Towels</li>
-						<li className="item"><List dataName="deodorant" passData={setChildData} />Deodorant</li>
-					</ul>
-				</li>
-				<li style={{fontSize: "18px"}}>Lesson Materials
-					<ul>
-						<li className="item"><List dataName="textbooks" passData={setChildData} />Textbooks</li>
-						<li className="item"><List dataName="stationary" passData={setChildData} />Stationary</li>
-					</ul>
-				</li>
-				<li style={{fontSize: "18px"}}>
-					<TextField 
-						label="Custom Item" 
-						variant="standard"
-						value={input}
-						onChange={e => setInput(e.target.value)}
-						style={{verticalAlign: "text-bottom"}}
-					/>
-					<IconButton
-						color="primary"
-						type="submit"
-						disabled={(input !== "") ? false : true}
-						aria-label="delete"
-						onClick={handleSubmit}
-					>
-						<AddIcon />
-					</IconButton>
-					<ul id="custom">
-						{customs}
-					</ul>
-				</li>
-			</ul>
+			<h3 style={{fontSize: "18px"}}>Toiletries
+				<List dataName="shampoo" passData={setChildData} />
+				<List dataName="toothbrush" passData={setChildData} />
+				<List dataName="towels" passData={setChildData} />
+				<List dataName="deodorant" passData={setChildData} />
+			</h3>
+			<h3 style={{fontSize: "18px"}}>Lesson Materials
+				<List dataName="textbooks" passData={setChildData} />
+				<List dataName="stationary" passData={setChildData} />
+			</h3>
+			<h3 style={{fontSize: "18px"}}>
+				<TextField 
+					label="Custom Item" 
+					variant="standard"
+					value={input}
+					onChange={e => setInput(e.target.value)}
+					style={{verticalAlign: "text-bottom"}}
+				/>
+				<IconButton
+					color="primary"
+					type="submit"
+					disabled={(input !== "") ? false : true}
+					aria-label="delete"
+					onClick={handleSubmit}
+				>
+					<AddIcon />
+				</IconButton>
+				{customs}
+			</h3>
 
 			<h3>data = {JSON.stringify(data, null, 2)}</h3>
 		</>

@@ -21,6 +21,7 @@
 
 * {
 	font-family: "Century Schoolbook";
+	list-style-type: none !important;
 }
 
 .item {
