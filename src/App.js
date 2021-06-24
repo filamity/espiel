@@ -5,13 +5,13 @@ import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import AddIcon from '@material-ui/icons/Add'
-
 import Checkbox from '@material-ui/core/Checkbox'
 import Avatar from '@material-ui/core/Avatar'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Container from '@material-ui/core/Container';
 
 function App() {
 	const [childData, setChildData] = useState({})
@@ -41,7 +41,9 @@ function App() {
 		}
 	}, [childData])
 
-	const handleSubmit = () => {
+	const handleSubmit = (event) => {
+
+		event.preventDefault()
 
 		// Adds item into data object
 		setData((prev) => ({
@@ -67,7 +69,6 @@ function App() {
 								<IconButton
 									edge="end"
 									aria-label="delete"
-									style={{marginLeft: "30px"}}
 									onClick={() => {
 										// removes item from data object
 										setData((prev) => ({
@@ -81,6 +82,7 @@ function App() {
 									<DeleteIcon />
 								</IconButton>
 								<Checkbox
+									style={{marginLeft: "15px"}}
 									edge="end"
 									disabled={(input !== "") ? false : true}
 									value={input}
@@ -102,39 +104,43 @@ function App() {
 
 	return (
 		<>
-			<h1>Welcome to Espiel</h1>
-			<h3>Essentials</h3>
-			<h3 style={{fontSize: "18px"}}>Toiletries
-				<List dataName="shampoo" passData={setChildData} />
-				<List dataName="toothbrush" passData={setChildData} />
-				<List dataName="towels" passData={setChildData} />
-				<List dataName="deodorant" passData={setChildData} />
-			</h3>
-			<h3 style={{fontSize: "18px"}}>Lesson Materials
-				<List dataName="textbooks" passData={setChildData} />
-				<List dataName="stationary" passData={setChildData} />
-			</h3>
-			<h3 style={{fontSize: "18px"}}>
-				<TextField 
-					label="Custom Item" 
-					variant="standard"
-					value={input}
-					onChange={e => setInput(e.target.value)}
-					style={{verticalAlign: "text-bottom"}}
-				/>
-				<IconButton
-					color="primary"
-					type="submit"
-					disabled={(input !== "") ? false : true}
-					aria-label="delete"
-					onClick={handleSubmit}
-				>
-					<AddIcon />
-				</IconButton>
-				{customs}
-			</h3>
+			<Container maxWidth="sm">
 
-			<h3>data = {JSON.stringify(data, null, 2)}</h3>
+				<h1>Welcome to Espiel</h1>
+				<h2>Essentials</h2>
+				<h3 style={{fontSize: "18px"}}>Toiletries
+					<List dataName="shampoo" passData={setChildData} />
+					<List dataName="toothbrush" passData={setChildData} />
+					<List dataName="towels" passData={setChildData} />
+					<List dataName="deodorant" passData={setChildData} />
+				</h3>
+				<h3 style={{fontSize: "18px"}}>Lesson Materials
+					<List dataName="textbooks" passData={setChildData} />
+					<List dataName="stationary" passData={setChildData} />
+				</h3>
+				<h3 style={{fontSize: "18px"}}>
+					<TextField 
+						label="Custom Item" 
+						variant="standard"
+						value={input}
+						onChange={e => setInput(e.target.value)}
+						style={{verticalAlign: "text-bottom"}}
+					/>
+					<IconButton
+						color="primary"
+						type="submit"
+						disabled={(input !== "") ? false : true}
+						aria-label="delete"
+						onClick={handleSubmit}
+					>
+						<AddIcon />
+					</IconButton>
+					{customs}
+				</h3>
+
+				<h3>data = {JSON.stringify(data, null, 2)}</h3>
+
+			</Container>
 		</>
 	)
 }
