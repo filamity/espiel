@@ -1,5 +1,9 @@
 # Espiel
 
+**A To-do list I made from when I first started learning React.**
+
+**Original README:**
+
 Espiel, or SPL (School Packing List) is a tool designed for students (by students) for keeping track of what to bring to school.
 
 Sample deploy here: [https://espiel.netlify.app/](https://espiel.netlify.app/)
